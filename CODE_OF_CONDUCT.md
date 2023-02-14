@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 We are committed to cultivating a respectful and productive environment for working and learning. Those interacting with this repository are required to conform to the following Code of Conduct. This applies in all avenues associated with this project including but not limited to collaborator meetings and online communications. The primary contributors will be responsible for enforcing the Code of Conduct. All reports will be reviewed by such persons or instructors and be kept confidential.
 
@@ -37,4 +37,4 @@ Individuals called out on inappropriate behavior are expected to comply immediat
 If someone is violating the Code of Conduct in any manner, we ask that it is reported to the project contributors, or the other project contributors if the violator is a contributor themselves. Contributors reserve the right to consult with other authorities, such as academic resource staff, in such a situations.
 
 ## Attribution  
-- Adapted from the DSCI 100 CoC
+This Code of Conduct is adapted from the DSCI 100 CoC, available at https://github.com/UBC-DSCI/dsci-100-student/blob/master/CODE_OF_CONDUCT.md. 
