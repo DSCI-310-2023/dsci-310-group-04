@@ -5,7 +5,8 @@
 **Contributors:** Annabelle Purnomo ([@annabelle-ep](https://github.com/annabelle-ep)), Ethan Pang ([@ethanielp](https://github.com/ethanielp))), Olivia Pang ([oliviacyp](https://github.com/oliviacyp))
 
 ## About
-This project attempts to build a k-nearest neighbour classification model to predict music genres using various predictors including ｀`danceability	energy	key	loudness	mode	speechiness	acousticness	instrumentalness	liveness	valence	tempo`.
+This project attempts to build a k-nearest neighbour classification model to predict music genres using various predictors including: 
+`danceability`, `energy`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`, `tempo`.
 
 ## Getting started
 To run the analyses you will need to clone this repository. 
@@ -23,9 +24,12 @@ To run the analyses you will need to clone this repository.
 
 ## Usage
 1. Install Docker. Make sure to follow the [installation steps](https://docs.docker.com/engine/install/).
-2. (remember to make sure you're in the root directory of this repository on your local computer) Run the following command from the command line/terminal: 
-`docker run -p 8888:8888 --rm -v /$(pwd):/home/jovyan/work/project ethanielp/dsci310-project`
-  To work on files in this container, paste in the URL at the bottom of the output after running the line above. <img width="573" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
+2. Again, remember to make sure you're in the root directory of this repository on your local computer. If you type `pwd` you should see that you're inside `dsci-310-group-04`. 
+3. Run the following command from the command line/terminal: 
+
+  `docker run -p 8888:8888 --rm -v /$(pwd):/home/jovyan/work/project ethanielp/dsci310-project`
+  
+- To work on files in this container, paste in the URL at the bottom of the output after running the line above. <img width="573" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
 
 ## Depenencies
   R version=4.2.2 and R packages: 
