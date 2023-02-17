@@ -5,8 +5,10 @@
 **Contributors:** Annabelle Purnomo ([@annabelle-ep](https://github.com/annabelle-ep)), Ethan Pang ([@ethanielp](https://github.com/ethanielp))), Olivia Pang ([oliviacyp](https://github.com/oliviacyp))
 
 ## About
-This project attempts to build a k-nearest neighbour classification model to predict music genres using various predictors including: 
+This project attempts to build a k-nearest neighbour classification model to predict music genres using various predictors:
 `danceability`, `energy`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`, `tempo`.
+
+The data set used is from [rdatascience/tidytuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-01-21) data. It uses [spotifyr](https://www.rcharlie.com/spotifyr/) to get audio track features from Spotify's Web API. It can be found specifically with this [URL](https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv), but also in our repository `data` folder.
 
 ## Getting started
 To run the analyses you will need to clone this repository. 
@@ -29,12 +31,17 @@ To run the analyses you will need to clone this repository.
 
   `docker run -p 8888:8888 --rm -v /$(pwd):/home/jovyan/work/project ethanielp/dsci310-project`
   
-- To work on files in this container, paste in the URL at the bottom of the output after running the line above. <img width="573" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
+- To work on files in this container, copy the bottom of the output after running the line above and paste it into a browser (e.g., Chrome, Safari). <img width="573" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
 
-## Depenencies
+## Dependencies
+- irkernel=1.1*
+  
   R version=4.2.2 and R packages: 
+- tidyverse=1.3*
+- tidymodels=0.1*
 - cowplot=1.1.1
 - kknn=1.3.1
 - RCurl=1.98
+- repr
 
 ###### **License:** [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
