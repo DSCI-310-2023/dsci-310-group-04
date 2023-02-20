@@ -8,7 +8,7 @@
 This project attempts to build a k-nearest neighbour (KNN) classification model to predict song genres using various  Spotify's audio features as predictors:
 `danceability`, `energy`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`, `tempo`. 
 
-Our KNN classification model is evaluated using ROC/AUC.
+Our KNN classification model is evaluated using ROC/AUC. We were able to create a model that produced an accuracy of 46.8% when predicting the genre of songs based on Spotify audio features in our testing data.
 
 The data set used is from [rdatascience/tidytuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-01-21) data. It uses [spotifyr](https://www.rcharlie.com/spotifyr/) to get audio track features from Spotify's Web API. It can be found specifically with this [URL](https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv), but also in our repository `data` folder.
 
