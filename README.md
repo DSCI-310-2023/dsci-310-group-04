@@ -1,4 +1,4 @@
-###### dsci-310-group-04
+###### Welcome to group-04's dsci-310 project!
 
 # Classifying Music Genres Using Spotify Audio Features
 
