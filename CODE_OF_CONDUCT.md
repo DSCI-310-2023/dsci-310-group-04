@@ -1,8 +1,9 @@
+###### Welcome to group-04's dsci-310 project!
+
+# Code of Conduct
 ## Introduction
 
 We are committed to cultivating a respectful and productive environment for working and learning. Those interacting with this repository are required to conform to the following Code of Conduct. This applies in all avenues associated with this project including but not limited to collaborator meetings and online communications. The primary contributors will be responsible for enforcing the Code of Conduct. All reports will be reviewed by such persons or instructors and be kept confidential.
-
-## Code of Conduct
 
 As collaborators on this project, we pledge to respect all those contributing to knowledge and bettering our community through issue reports, pull requests, and other related activities. We are committed to respecting all, regardless of level of experience, gender, gender expression, sexual orientation, disability, ethnicity, age, religion, or nationality.
 
@@ -19,8 +20,8 @@ Our expectations for each other:
 
 The following represent an non-exhaustive list of unacceptable behaviors:
 
-- Unwelcoming behaviour, whether it’s flat out harassment or microaggressions
-- This goes under the above but to be more explicit, any kind of derogatory comments or insults will not be tolerated 
+- Unwelcoming behaviour, whether it’s flat out harassment or microaggressions. 
+- This goes under the above but to be more explicit, any kind of derogatory comments or insults will not be tolerated.
 
 ## A procedure for reporting and dealing with unacceptable behaviour
 - **Talking it out with the person:** If the situation is comfortable enough to do this, try this out first and let them know if they've done something to make you uncomfortable. 
@@ -34,7 +35,7 @@ Individuals called out on inappropriate behavior are expected to comply immediat
 
 ## Incident Reporting Guidelines 
 
-If someone is violating the Code of Conduct in any manner, we ask that it is reported to the project contributors, or the other project contributors if the violator is a contributor themselves. Contributors reserve the right to consult with other authorities, such as academic resource staff, in such a situations.
+If someone is violating the Code of Conduct in any manner, we ask that it is reported to the project contributors, or the other project contributors if the violator is a contributor themselves. Contributors reserve the right to consult with other authorities, such as instructors or academic resource staff, in such a situations.
 
 ## Attribution  
 This Code of Conduct is adapted from the DSCI 100 CoC, available at https://github.com/UBC-DSCI/dsci-100-student/blob/master/CODE_OF_CONDUCT.md. 
