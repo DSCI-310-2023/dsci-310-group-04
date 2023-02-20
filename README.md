@@ -1,12 +1,14 @@
 ###### dsci-310-group-04
 
-# TITLE --to be added
+# Classifying Music Genres Using Spotify Audio Features
 
 **Contributors:** Annabelle Purnomo ([@annabelle-ep](https://github.com/annabelle-ep)), Ethan Pang ([@ethanielp](https://github.com/ethanielp))), Olivia Pang ([oliviacyp](https://github.com/oliviacyp))
 
 ## About
-This project attempts to build a k-nearest neighbour classification model to predict music genres using various predictors:
-`danceability`, `energy`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`, `tempo`.
+This project attempts to build a k-nearest neighbour (KNN) classification model to predict song genres using various  Spotify's audio features as predictors:
+`danceability`, `energy`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`, `tempo`. 
+
+Our KNN classification model is evaluated using ROC/AUC.
 
 The data set used is from [rdatascience/tidytuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-01-21) data. It uses [spotifyr](https://www.rcharlie.com/spotifyr/) to get audio track features from Spotify's Web API. It can be found specifically with this [URL](https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv), but also in our repository `data` folder.
 
