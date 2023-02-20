@@ -33,7 +33,9 @@ To run the analyses you will need to clone this repository.
 
     `docker run -p 8888:8888 --rm -v /$(pwd):/home/jovyan/work/project ethanielp/dsci310-project`
   
-    - To work on files in this container, copy the bottom of the output after running the line above and paste it into a browser (e.g., Chrome, Safari). <img width="573" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
+    - To work on files in this container, copy the bottom of the output after running the line above and paste it into a browser (e.g., Chrome, Safari). 
+        
+        <img width="300" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
 
 ## Dependencies
 - irkernel=1.1*
