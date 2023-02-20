@@ -1,4 +1,4 @@
-Welcome to group-04's dsci-310 project! 
+###### Welcome to group-04's dsci-310 project! 
 
 # Here's how you can contribute to this project: 
 
