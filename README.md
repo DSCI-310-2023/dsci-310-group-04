@@ -41,6 +41,7 @@ To run the analyses you will need to clone this repository.
 - irkernel=1.1*
   
 R version=4.2.2 and R packages: 
+  - testthat=3.1.6
   - tidyverse=1.3*
   - tidymodels=0.1*
   - cowplot=1.1.1
