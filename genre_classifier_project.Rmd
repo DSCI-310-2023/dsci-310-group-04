@@ -32,6 +32,7 @@ library(RCurl)
 library(kknn)
 library(cowplot)
 library(testthat)
+library(here)
 
 # Set default rows displayed for dataframes
 options(repr.matrix.max.rows = 6)
@@ -66,7 +67,7 @@ song_data
 To tidy the data, from `song_data` we first selected only the predicted feature `playlist_genre` and the predictor features that relate to the acoustic aspects of the songs. Then, the datatype of `playlist_genre` was converted from character to factor and the resulting dataframe was named `tidy_song_data`.
 ```{r}
 # load in the function
-source("R/classy_read.R")
+source(here("R/classy_read.R"))
 
 # Tidy the data, only keep the relevant columns
 # Change datatype of playlist_genre from character to factor in order for some of the functions to work later
