@@ -14,15 +14,8 @@ The data set used is from [rdatascience/tidytuesday](https://github.com/rfordata
 
 ## Getting started
 To run the analyses you will need to clone this repository. 
-1. Open the command line/terminal. Go to your computer searchbar and type in `Terminal`. Check out [GitLab's explanation](https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html#choose-a-terminal) on choosing a command line/terminal based on your computer.
-2. Make sure you have `Git` installed. Check out [GitLab's instructions](https://docs.gitlab.com/ee/topics/git/how_to_install_git/index.html).
-3. On your computer, move to a folder where you will want the repository folder to appear. 
-  - To check what's in the folder you're in, type in `ls` in your command line/terminal.
-  - You can move directories by typing `cd <folder name>`. 
-4. Clone this repository. 
-  - You can do this by going to this repository (dsci-310-group-04) section called "Code". 
-  - Look for the green button called "Code". Click it and it should give you a small pop-up. Copy the [HTTPS URL](https://github.com/annabelle-ep/dsci-310-group-04.git) for this repository. 
-  - In your command line/terminal type ``git clone <HTTPS URL>`` and replace <HTTPS URL> with the HTTPS URL you copied. 
+1. Clone this repository. 
+  - In your command line/terminal type ``git clone https://github.com/annabelle-ep/dsci-310-group-04.git``.
   - Press enter and after check it's there by typing `ls`. You should see a folder called `dsci-310-group-04`.
   - Move into this folder with ``cd dsci-310-group-04``. 
 
@@ -31,7 +24,7 @@ To run the analyses you will need to clone this repository.
 2. Again, remember to make sure you're in the root directory of this repository on your local computer. If you type `pwd` you should see that you're inside `dsci-310-group-04`. 
 3. Run the following command from the command line/terminal: 
 
-    `docker run -p 8888:8888 --rm -v /$(pwd):/home/jovyan/work/project ethanielp/dsci310-project`
+    `docker run -p 8787:8787 --rm --platform linux/amd64 -v /$(pwd):/home/rstudio/workspace ethanielp/dsci310-project:test`
   
     - To work on files in this container, copy the bottom of the output after running the line above and paste it into a browser (e.g., Chrome, Safari). 
         
@@ -48,5 +41,6 @@ R version=4.2.2 and R packages:
   - kknn=1.3.1
   - RCurl=1.98
   - repr
+  - bookdown=0.33
 
 ###### **License:** [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
