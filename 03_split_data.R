@@ -1,7 +1,7 @@
 # author: Annabelle Purnomo
 # date: 2023-03-21
 
-# This script tidies the raw data from 01_read_file.R with classy_read.R function. 
+# This script ...
 
 # Usage: 03_split_data.R ...
 
