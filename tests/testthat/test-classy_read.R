@@ -1,5 +1,5 @@
 library(testthat)
-source("../../classy_read.R")
+source("../../R/classy_read.R")
 
 test_that("`classy_read` should read in a .csv from a URL and produce an output summarizing NaNs in the dataset when no other arguments are provided", {
   expect_equivalent(classy_read(iris), test_dataset)
