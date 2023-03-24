@@ -4,17 +4,18 @@ This script performs preliminary data analysis on the training set derived from 
 Usage: Rscript Scripts/04_EDA.R
   " -> doc
 
-here::here()
+# load libraries 
 library(docopt)
 library(knitr)
 library(tidyverse)
 library(here)
 library(cowplot)
 
+# load sources
 opt <- docopt(doc)
-source(here("R/count_proportion.r"))
-source(here("R/create_faceted_hist_plot.R"))
-source(here("Scripts/03_split_data.R"))
+source(here("R","count_proportion.r"))
+source(here("R","create_faceted_hist_plot.R"))
+source(here("Scripts", "03_split_data.R"))
 
 # 0 Read in the data
 training_song_data <- read.csv(here("data/spotify_songs.csv"))
@@ -72,4 +73,3 @@ tempo_hist <- create_faceted_hist_plot(training_song_data, 'tempo')
 eda_grid <- plot_grid(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist, ncol = 4, labels = "AUTO")
 
 ggsave("eda_grid.png", device = "png", path = "Outputs", width = 5, height = 4)
-
