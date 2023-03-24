@@ -9,8 +9,10 @@
 # write.csv(song_data,"data/spotify_songs.csv")
 
 # Read the data from the web into jupyter
+
 library(tidyverse)
+library(RCurl)
 
 url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv"
-song_data <- read.csv(text = getURL(url))
-head(song_data)
+x <- getURL(url)
+song_data <- read.csv(text = x)
