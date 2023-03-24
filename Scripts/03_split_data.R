@@ -1,6 +1,6 @@
 # author: Annabelle Purnomo
 # date: 2023-03-21
-
+ 
 # This script splits the data into training and testing sets at 75:25 ratio.
 
 # load libraries

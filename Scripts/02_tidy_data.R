@@ -1,6 +1,6 @@
 # author: Annabelle Purnomo
 # date: 2023-03-21
-
+ 
 # This script tidies the raw data from 01_read_data using the the classy_read.R function and outputs a data/tidy_song_data.csv file.
 # It will only keep the relevant columns.
 # Change datatype of playlist_genre from character to factor in order for some of the functions to work later.

@@ -1,6 +1,6 @@
 "
 This script performs preliminary data analysis on the training set derived from '03_split_data.R'
-
+ 
 Usage: Rscript Scripts/04_EDA.R
   " -> doc
 
