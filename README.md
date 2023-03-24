@@ -34,13 +34,15 @@ To run the analyses you will need to clone this repository.
 - irkernel=1.1*
   
 R version=4.2.2 and R packages: 
+  - remotes
   - testthat=3.1.6
   - tidyverse=1.3*
   - tidymodels=0.1*
   - cowplot=1.1.1
   - kknn=1.3.1
   - RCurl=1.98
-  - repr
+  - repr=1.1.6
   - bookdown=0.33
+  - docopt=0.7.1
 
 ###### **License:** [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
