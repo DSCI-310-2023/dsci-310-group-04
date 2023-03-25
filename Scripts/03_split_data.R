@@ -17,6 +17,10 @@ split_song_data <- initial_split(tidy_song_data, prop = 0.75, strata = playlist_
 
 # training set
 training_song_data <- training(split_song_data)
+readr::write_csv(training_song_data,
+                 here("Outputs", "3.1-training_song_data.csv"))
 
 # testing set
 testing_song_data <- testing(split_song_data)
+readr::write_csv(testing_song_data,
+                 here("Outputs", "3.2-testing_song_data.csv"))

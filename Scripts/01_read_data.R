@@ -14,4 +14,4 @@ x <- getURL(url)
 song_data <- read.csv(text = x)
 
 readr::write_csv(song_data,
-       here("data", "spotify_songs.csv"))
+       here("Outputs", "1.1-spotify_songs.csv"))

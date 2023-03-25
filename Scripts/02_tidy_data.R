@@ -18,4 +18,4 @@ source(here("Scripts","01_read_data.R"))
 tidy_song_data <- classy_read(url, "playlist_genre", playlist_genre, danceability:tempo)
 
 readr::write_csv(tidy_song_data,
-          here("data", "tidy_song_data.csv"))
+          here("Outputs", "2.1-tidy_song_data.csv"))

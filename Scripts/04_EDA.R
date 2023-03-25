@@ -1,8 +1,8 @@
-"
-This script performs preliminary data analysis on the training set derived from '03_split_data.R'
+#"
+#This script performs preliminary data analysis on the training set derived from '03_split_data.R'
  
-Usage: Rscript Scripts/04_EDA.R
-  " -> doc
+#Usage: Rscript Scripts/04_EDA.R
+#  " -> doc
 
 # load libraries 
 library(docopt)
@@ -12,13 +12,14 @@ library(here)
 library(cowplot)
 
 # load sources
-opt <- docopt(doc)
+#opt <- docopt(doc)
+source(here("Scripts/03_split_data.R"))
 source(here("R","count_proportion.r"))
 source(here("R","create_faceted_hist_plot.R"))
-source(here("Scripts", "03_split_data.R"))
 
 # 0 Read in the data
-training_song_data <- read.csv(here("data/spotify_songs.csv"))
+tidy_song_data <- read.csv(here("Outputs", "2.1-tidy_song_data.csv"))
+training_song_data <- read.csv(here("Outputs", "3.1-training_song_data.csv"))
 
 # 1 Get proportions of genres from tidy data
 tidy_prop <- count_proportion(tidy_song_data, 'playlist_genre', "tidy")
@@ -35,14 +36,14 @@ prop_df <- prop_df[,c(1,2,4,3,5)]
 
 # Save out the resulting table
 write_csv(prop_df,
-          file.path("Outputs", "prop_df.csv"))
+          file.path("Outputs", "4.1-prop_df.csv"))
 
 # 2 Check number of missing values in each column of the table in the training data
 num_na <- training_song_data|> 
   summarize_all(~sum(is.na(.))) 
 
 write_csv(num_na,
-          file.path("Outputs", "num_na.csv"))
+          file.path("Outputs", "4.2-num_na.csv"))
 
 # Preliminary data visualization
 # Histograms of each of the features that we are using, differentiated by labeled genre
@@ -72,4 +73,4 @@ tempo_hist <- create_faceted_hist_plot(training_song_data, 'tempo')
 
 eda_grid <- plot_grid(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist, ncol = 4, labels = "AUTO")
 
-ggsave("eda_grid.png", device = "png", path = "Outputs", width = 5, height = 4)
+ggsave("4.3-eda_grid.png", device = "png", path = "Outputs", width = 5, height = 4)
