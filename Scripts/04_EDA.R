@@ -13,7 +13,6 @@ library(cowplot)
 
 # load sources
 #opt <- docopt(doc)
-source(here("Scripts/03_split_data.R"))
 source(here("R","count_proportion.r"))
 source(here("R","create_faceted_hist_plot.R"))
 

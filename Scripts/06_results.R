@@ -3,15 +3,22 @@
 # load libraries
 library(here)
 library(kknn)
-# load sources
-source(here("Scripts/03_split_data.R"))
-source(here("Scripts/05_analysis.R"))
+library(tidyverse)
+library(tidymodels)
 
 # Read in the data
 training_song_data <- read.csv(here("Outputs", "3.1-training_song_data.csv"))
-training_song_data <- read.csv(here("Outputs", "3.2-testing_song_data.csv"))
+testing_song_data <- read.csv(here("Outputs", "3.2-testing_song_data.csv"))
 
 # Test predictions using test-data
+song_recipe <- recipe(playlist_genre ~ ., data = training_song_data) |>
+  step_scale(all_predictors()) |>
+  step_center(all_predictors())
+
+knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = tune()) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
 knn_fit <- workflow() |>
   add_recipe(song_recipe) |>
   add_model(knn_spec) |>

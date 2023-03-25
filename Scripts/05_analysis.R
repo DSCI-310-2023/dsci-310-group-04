@@ -3,8 +3,9 @@
 # load libraries
 library(here)
 library(kknn)
+library(tidyverse)
+library(tidymodels)
 # load sources
-source(here("Scripts/03_split_data.R"))
 
 # Read in the data
 training_song_data <- read.csv(here("Outputs", "3.1-training_song_data.csv"))

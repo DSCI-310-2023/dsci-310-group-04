@@ -7,12 +7,10 @@
 library(tidymodels)
 library(here)
 
-# load sources
-source(here("Scripts/02_tidy_data.R"))
-
 # main
 set.seed(1) # Set the seed for reproducibility
 
+tidy_song_data <- read.csv(here("Outputs", "2.1-tidy_song_data.csv"))
 split_song_data <- initial_split(tidy_song_data, prop = 0.75, strata = playlist_genre)
 
 # training set

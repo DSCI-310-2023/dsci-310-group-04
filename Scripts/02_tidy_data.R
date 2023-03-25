@@ -12,9 +12,9 @@ library(tidyverse)
 
 # sources
 source(here("R","classy_read.R"))
-source(here("Scripts","01_read_data.R"))
 
 # main
+url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv"
 tidy_song_data <- classy_read(url, "playlist_genre", playlist_genre, danceability:tempo)
 
 readr::write_csv(tidy_song_data,
