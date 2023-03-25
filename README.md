@@ -24,23 +24,23 @@ To run the analyses you will need to clone this repository.
 2. Again, remember to make sure you're in the root directory of this repository on your local computer. If you type `pwd` you should see that you're inside `dsci-310-group-04`. 
 3. Run the following command from the command line/terminal: 
 
-    `docker run -p 8787:8787 --rm --platform linux/amd64 -v /$(pwd):/home/rstudio/workspace ethanielp/dsci310-project:test`
+    `docker run -p 8787:8787 --rm --platform linux/amd64 -e PASSWORD="apassword" -v /$(pwd):/home/rstudio/workspace ethanielp/dsci310-project:latest`
   
-    - To work on files in this container, copy the bottom of the output after running the line above and paste it into a browser (e.g., Chrome, Safari). 
-        
-        <img width="300" alt="image" src="https://user-images.githubusercontent.com/87722418/219476602-b568e21d-9dcf-4377-a1c5-0146c8fe2451.png">
+4. To work on files in this container, go to http://localhost:8787/ and type in the following
+  - username: rstudio
+  - password: apassword
 
-## Dependencies
-- irkernel=1.1*
-  
+## Dependencies  
 R version=4.2.2 and R packages: 
+  - remotes
   - testthat=3.1.6
   - tidyverse=1.3*
   - tidymodels=0.1*
   - cowplot=1.1.1
   - kknn=1.3.1
   - RCurl=1.98
-  - repr
+  - repr=1.1.6
   - bookdown=0.33
+  - docopt=0.7.1
 
 ###### **License:** [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)

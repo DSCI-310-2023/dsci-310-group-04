@@ -1,11 +1,16 @@
 # author: Annabelle Purnomo
 # date: 2023-03-21
+ 
+# This script splits the data into training and testing sets at 75:25 ratio.
 
-# This script ...
+# load libraries
+library(tidymodels)
+library(here)
 
-# Usage: 03_split_data.R ...
+# load sources
+source(here("Scripts/02_tidy_data.R"))
 
-# Split the data into training and testing sets at 75:25 ratio
+# main
 set.seed(1) # Set the seed for reproducability
 
 split_song_data <- initial_split(tidy_song_data, prop = 0.75, strata = playlist_genre)
