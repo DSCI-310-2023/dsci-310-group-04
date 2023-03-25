@@ -1,0 +1,3 @@
+.metric,.estimator,mean,n,std_err,.config
+accuracy,multiclass,0.47305144648696784,5,0.003223285958819085,Preprocessor1_Model1
+roc_auc,hand_till,0.7747687417818728,5,0.003256339918259618,Preprocessor1_Model1

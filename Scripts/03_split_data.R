@@ -11,7 +11,7 @@ library(here)
 source(here("Scripts/02_tidy_data.R"))
 
 # main
-set.seed(1) # Set the seed for reproducability
+set.seed(1) # Set the seed for reproducibility
 
 split_song_data <- initial_split(tidy_song_data, prop = 0.75, strata = playlist_genre)
 
