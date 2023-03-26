@@ -35,11 +35,12 @@ R version=4.2.2 and R packages:
   - remotes
   - testthat=3.1.6
   - tidyverse=1.3*
-  - tidymodels=0.1*
+  - tidymodels=1.0.0*
   - cowplot=1.1.1
   - kknn=1.3.1
   - RCurl=1.98
   - repr=1.1.6
+  - here=1.0.1
   - bookdown=0.33
   - docopt=0.7.1
 
