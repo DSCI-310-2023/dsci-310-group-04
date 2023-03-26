@@ -24,27 +24,27 @@ Outputs/4.2-num_na.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_
 Outputs/4.3-eda_grid.png : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/04_EDA.R
 	Rscript Scripts/04_EDA.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/4.3-eda_grid.png
 
-Outputs/5.1-k_accuracy_table.csv : Outputs/3.1-training_song_data.csv Scripts/05_analysis.R
-	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/5.1-k_accuracy_table.csv
+Outputs/5.1-k_accuracy_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/5.1-k_accuracy_table.csv
 
-Outputs/5.2-k_accuracy_vs_k_plot.png : Outputs/3.1-training_song_data.csv Scripts/05_analysis.R
-	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/5.2-k_accuracy_vs_k_plot.png
+Outputs/5.2-k_accuracy_vs_k_plot.png : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/5.2-k_accuracy_vs_k_plot.png
 
-Outputs/5.3-best_k_accuracy_table.csv : Outputs/3.1-training_song_data.csv Scripts/05_analysis.R
-	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/5.3-best_k_accuracy_table.csv
+Outputs/5.3-best_k_accuracy_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/5.3-best_k_accuracy_table.csv
 
-Outputs/6.1-test_preds_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/06_results.R
-	Rscript Scripts/06_results.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.1-test_preds_table.csv
+Outputs/6.1-test_preds_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.1-test_preds_table.csv
 
-Outputs/6.2-test_accuracy_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/06_results.R
-	Rscript Scripts/06_results.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.2-test_accuracy_table.csv
+Outputs/6.2-test_accuracy_table.csv : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.2-test_accuracy_table.csv
 
-Outputs/6.3-matrix_plot.png : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/06_results.R
-	Rscript Scripts/06_results.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.3-matrix_plot.png
+Outputs/6.3-matrix_plot.png : Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Scripts/05_analysis.R
+	Rscript Scripts/05_analysis.R Outputs/3.1-training_song_data.csv Outputs/3.2-testing_song_data.csv Outputs/6.3-matrix_plot.png
 
 .Phony : rstudio
 rstudio:
-	docker run -p 8787:8787 --rm --platform linux/amd64 -v $$(pwd):/home/rstudio/workspace ethanielp/dsci310-project:test
+	docker run -p 8787:8787 --rm --platform linux/amd64 -e PASSWORD="apassword" -v $$(pwd):/home/rstudio ethanielp/dsci310-project:test
 
 .Phony : clean
 clean:

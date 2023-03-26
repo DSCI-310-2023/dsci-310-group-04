@@ -6,9 +6,13 @@ library(kknn)
 library(tidyverse)
 library(tidymodels)
 
+
 # Read in the data
 training_song_data <- read.csv(here("Outputs", "3.1-training_song_data.csv"))
 testing_song_data <- read.csv(here("Outputs", "3.2-testing_song_data.csv"))
+
+training_song_data$playlist_genre <- as.factor(training_song_data$playlist_genre)
+testing_song_data$playlist_genre <- as.factor(testing_song_data$playlist_genre)
 
 # Test predictions using test-data
 song_recipe <- recipe(playlist_genre ~ ., data = training_song_data) |>
@@ -31,7 +35,7 @@ readr::write_csv(song_test_predictions, here("Outputs", "6.1-test_preds_table.cs
 
 # Accuracy of the model on testing data
 accuracy_only <- song_test_predictions |>
-  metrics(truth = playlist_genre, estimate = .pred_class) |>
+  yardstick::metrics(truth = playlist_genre, estimate = .pred_class) |>
   filter(.metric == "accuracy")
 
 readr::write_csv(accuracy_only, here("Outputs", "6.2-test_accuracy_table.csv"))
