@@ -1,7 +1,7 @@
 ---
 title: "DSCI 310 - Project: Classifying Music Genres Using Spotify Audio Features"
 output:
-  html_document:
+  bookdown::html_document2:
     df_print: paged
     toc: true
     number_sections: false
@@ -40,13 +40,11 @@ options(repr.matrix.max.rows = 6)
 set.seed(1)
 ```
 
-## The Dataset
+### The Dataset
 
 We will be using the *Spotify Songs* dataset obtained here: <https://github.com/dliu0049/tidytuesday_wc/tree/master/data/2020/2020-01-21>.
 
-## Overview of the original dataset
-
-```{r song_data, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 song_data <- head(read_csv(here("Outputs/1.1-spotify_songs.csv")))
 knitr::kable(song_data, caption = "Original Spotify Songs dataset")
 ```
@@ -55,34 +53,33 @@ knitr::kable(song_data, caption = "Original Spotify Songs dataset")
 
 To tidy the data, from `song_data` we first selected only the predicted feature `playlist_genre` and the predictor features that relate to the acoustic aspects of the songs. Then, the datatype of `playlist_genre` was converted from character to factor and the resulting dataframe was named `tidy_song_data`.
 
-```{r tidy_song_data, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 tidy_song_data <- head(read_csv(here("Outputs/2.1-tidy_song_data.csv")))
 knitr::kable(tidy_song_data, caption = "Tidy dataset")
 ```
 
 Next we seperated the `tidy_song_data` into a `training_song_data set` with which to build our classifier, and a `testing_song_data` set with which to evaluate it with later on. The ratio of the training/testing split is 75/25%, and the relative proportion of each `playlist_genre` category was preserved in each set.
 
-```{r training_song_data, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 training_song_data <- head(read_csv(here("Outputs/3.1-training_song_data.csv")))
 knitr::kable(training_song_data, caption = "Training data")
 ```
 
-```{r testing_song_data, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 testing_song_data <- head(read_csv(here("Outputs/3.2-testing_song_data.csv")))
 knitr::kable(testing_song_data, caption = "Testing data")
 ```
 
 For preliminary data analysis, two things were checked, only using the `training_song_data`. First, the proportions of the `playlist_genre`, just to make sure the split divided it properly, and second, the amount of `NA` values in the dataset, which is important to ensure the set is suitable for analysis.
 
-```{r prop_df, echo = FALSE, message = FALSE}
-# Preliminary data analysis
+```{r, echo = FALSE, message = FALSE}
 prop_df <- head(read_csv(here("Outputs/4.1-prop_df.csv")))
 knitr::kable(prop_df, caption = "Proportions of each genre in training set compared to tidy data")
 ```
 
 The proportions are about the same in both datasets.
 
-```{r num_na, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 num_na <- read_csv(here("Outputs/4.2-num_na.csv"))
 knitr::kable(num_na, caption = "There is no missing data")
 ```
@@ -111,14 +108,14 @@ Next, we conduct 5-fold cross validation in order to find the most suitable hype
 
 The following table and plot summmarize these results:
 
-```{r k_accuracy_table, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 k_accuracy_table <- read_csv(here("Outputs/5.1-k_accuracy_table.csv"))
 knitr::kable(k_accuracy_table, caption = "Accuracy of the different k values")
 ```
 
 **NOTE:** For whatever reason, the plot below does not load correctly in the github preview, but looks fine locally
 
-```{r, echo = FALSE, message = FALSE, fig.cap = "Accuracies of the different k values"}
+```{r, message = FALSE, fig.cap = "Accuracies of the different k values"}
 # Preliminary data visualization
 knitr::include_graphics(here("Outputs/5.2-accuracy_vs_k_plot.png"))
 ```
