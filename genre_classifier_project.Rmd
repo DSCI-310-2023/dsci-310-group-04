@@ -1,11 +1,12 @@
 ---
-title: "DSCI 310 - Project"
+title: "DSCI 310 - Project: Classifying Music Genres Using Spotify Audio Features"
 output:
   html_document:
     df_print: paged
+    toc: true
+    number_sections: false
+bibliography: references.bib
 ---
-
-# Classifying Music Genres Using Spotify Audio Features
 
 ## Summary
 
@@ -21,7 +22,7 @@ Because Spotify's audio features for music personalization vary so much from wha
 
 **Our goal is to discover how well Spotify's custom audio features are able to predict common genres of music.**
 
-```{r}
+```{r, include = FALSE, message = FALSE}
 # Load necessary packages 
 library(tidyverse)
 library(repr)
@@ -43,155 +44,58 @@ set.seed(1)
 
 We will be using the *Spotify Songs* dataset obtained here: <https://github.com/dliu0049/tidytuesday_wc/tree/master/data/2020/2020-01-21>.
 
-```{r}
-# Read the data from the web into jupyter
-url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv"
-x <- getURL(url)
-song_data <- read.csv(text = x)
+## Overview of the original dataset
+
+```{r song_data, echo = FALSE, message = FALSE}
+song_data <- head(read_csv(here("Outputs/1.1-spotify_songs.csv")))
+knitr::kable(song_data, caption = "Original Spotify Songs dataset")
 ```
 
-```{r}
-# Ran once to write the data into a local folder, don't need to run again
-# write.csv(song_data,"data/spotify_songs.csv")
-```
-
-```{r}
-# Overview of the original dataset
-song_data
-```
-
-**Table 1.1** - Original dataset \## Preliminary Data Analysis
+## Preliminary Data Analysis
 
 To tidy the data, from `song_data` we first selected only the predicted feature `playlist_genre` and the predictor features that relate to the acoustic aspects of the songs. Then, the datatype of `playlist_genre` was converted from character to factor and the resulting dataframe was named `tidy_song_data`.
 
-```{r}
-# load in the function
-source(here("R/classy_read.R"))
-
-# Tidy the data, only keep the relevant columns
-# Change datatype of playlist_genre from character to factor in order for some of the functions to work later
-# Check number of missing values in each column of the table in the training data
-
-tidy_song_data <- classy_read(url, "playlist_genre", playlist_genre, danceability:tempo)
-head(tidy_song_data)
+```{r tidy_song_data, echo = FALSE, message = FALSE}
+tidy_song_data <- head(read_csv(here("Outputs/2.1-tidy_song_data.csv")))
+knitr::kable(tidy_song_data, caption = "Tidy dataset")
 ```
-
-**Table 1.2** - Tidy dataset
-
-There is no missing data in the dataset.
 
 Next we seperated the `tidy_song_data` into a `training_song_data set` with which to build our classifier, and a `testing_song_data` set with which to evaluate it with later on. The ratio of the training/testing split is 75/25%, and the relative proportion of each `playlist_genre` category was preserved in each set.
 
-```{r}
-# Split the data into training and testing sets at 75:25 ratio
-set.seed(1) # Set the seed for reproducability
+```{r training_song_data, echo = FALSE, message = FALSE}
+training_song_data <- head(read_csv(here("Outputs/3.1-training_song_data.csv")))
+knitr::kable(training_song_data, caption = "Training data")
+```
 
-split_song_data <- initial_split(tidy_song_data, prop = 0.75, strata = playlist_genre)
-
-# training set
-training_song_data <- training(split_song_data)
-
-# testing set
-testing_song_data <- testing(split_song_data)
+```{r testing_song_data, echo = FALSE, message = FALSE}
+testing_song_data <- head(read_csv(here("Outputs/3.2-testing_song_data.csv")))
+knitr::kable(testing_song_data, caption = "Testing data")
 ```
 
 For preliminary data analysis, two things were checked, only using the `training_song_data`. First, the proportions of the `playlist_genre`, just to make sure the split divided it properly, and second, the amount of `NA` values in the dataset, which is important to ensure the set is suitable for analysis.
 
-```{r}
+```{r prop_df, echo = FALSE, message = FALSE}
 # Preliminary data analysis
-
-# Get proportions of genres from data using a function
-# load in the function
-source("R/count_proportion.r")
-
-# Get proportions of genres from tidy data
-tidy_prop <- count_proportion(tidy_song_data, 'playlist_genre', "tidy")
-
-# Get proportions of genres from training data
-train_prop <- count_proportion(training_song_data, 'playlist_genre', "train")
-
-# Combine dataframes to compare
-df_list <- list(train_prop, tidy_prop)      
-
-prop_df <- df_list %>% reduce(full_join, by='playlist_genre')
-prop_df[,c(1,2,4,3,5)]
+prop_df <- head(read_csv(here("Outputs/4.1-prop_df.csv")))
+knitr::kable(prop_df, caption = "Proportions of each genre in training set compared to tidy data")
 ```
-
-**Table 1.3.1** - Proportions of each genre in training set compared to tidy data
 
 The proportions are about the same in both datasets.
 
-```{r}
-#Check number of missing values in each column of the table in the training data
-num_na <- training_song_data|> 
-            summarize_all(~sum(is.na(.))) 
-num_na
+```{r num_na, echo = FALSE, message = FALSE}
+num_na <- read_csv(here("Outputs/4.2-num_na.csv"))
+knitr::kable(num_na, caption = "There is no missing data")
 ```
 
-### Preliminary Data Visualizations
+#### Preliminary Data Visualizations
 
 For the preliminary data visualization, histograms were created comparing the audio features between each of the `playlist_genre` categories.
 
 **NOTE:** This cell may take around 20 seconds to run
 
-```{r}
-# Preliminary data visualization
-# Histograms of each of the features that we are using, differentiated by labeled genre
-options(repr.plot.width = 15, repr.plot.height = 15)
-
-danceability_hist <- ggplot(training_song_data, aes(x = danceability)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-energy_hist <- ggplot(training_song_data, aes(x = energy)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-danceability_hist <- ggplot(training_song_data, aes(x = danceability)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-key_hist <- ggplot(training_song_data, aes(x = key)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-loudness_hist <- ggplot(training_song_data, aes(x = loudness)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-mode_hist <- ggplot(training_song_data, aes(x = mode)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-speechiness_hist <- ggplot(training_song_data, aes(x = speechiness)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-acousticness_hist <- ggplot(training_song_data, aes(x = acousticness)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-instrumentalness_hist <- ggplot(training_song_data, aes(x = instrumentalness)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-liveness_hist <- ggplot(training_song_data, aes(x = liveness)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-valence_hist <- ggplot(training_song_data, aes(x = valence)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-tempo_hist <- ggplot(training_song_data, aes(x = tempo)) +
-                            geom_histogram(bins=20) +
-                            facet_grid(rows = "playlist_genre")
-
-# Plot all the histograms together 
-plot_grid(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist, ncol = 4, labels = "AUTO")
+```{r, echo = FALSE ,fig.cap=" Histograms of each of the features that we are using, differentiated by labeled genre."}
+knitr::include_graphics(here("Outputs/4.3-eda_grid.png"))
 ```
-
-**Figure 1.4** - Preliminary data visualization
 
 The histograms above show that while the distributions of certain audio features in songs are similar between different genres, across all the features there are differences in the central tendency and that these differences may provide enough information to acheive a reasonable accuracy with the classifier.
 
@@ -201,148 +105,53 @@ The following steps show how we build the classifier:
 
 First, we scale and center the predictors so that impact of each variable is equal. Then we create a recipe with the target variable `playlist_genre` that uses all the training data, and set up tuning for the best k value.
 
-```{r}
-# Scale predictors, use standard recipe, setup knn_spec to tune for best k value
-song_recipe <- recipe(playlist_genre ~ ., data = training_song_data) |>
-  step_scale(all_predictors()) |>
-  step_center(all_predictors())
-
-knn_spec <- nearest_neighbor(weight_func = "rectangular", 
-                             neighbors = tune()) |>
-  set_engine("kknn") |>
-  set_mode("classification")
-```
-
 Next, we conduct 5-fold cross validation in order to find the most suitable hyperparameter by getting better estimates of the accuracy of each k value.
 
 **NOTE:** The cell below will take around 5 minutes to load due to the size of the dataset
 
-```{r}
-# Cross validating and finding the best hyperparameter for the model
-
-set.seed(1) # Setting seed for reproducibility
-
-# Trying 15 different k values, count by every 10 from 1 to 51
-k_vals <- tibble(neighbors = seq(from = 1, to = 51, by = 10))
-
-song_vfold <- vfold_cv(training_song_data, v = 5, strata = playlist_genre)
-
-knn_results <- workflow() |>
-  add_recipe(song_recipe) |>
-  add_model(knn_spec) |>
-  tune_grid(resamples = song_vfold, grid = k_vals) |>
-  collect_metrics() 
-
-accuracies <- knn_results |>
-  filter(.metric == "accuracy")
-```
-
 The following table and plot summmarize these results:
 
-```{r}
-# Accuracy table for different k values
-accuracies |>  arrange(desc(mean))
-```
-
-**Table 2.1** - Accuracy of the different k values
-
-```{r}
-# Plot the different accuracies of k, 
-accuracy_vs_k <- ggplot(accuracies, aes(x = neighbors, y = mean)) +
-  geom_point() +
-  geom_line() +
-  labs(x = "Neighbors", y = "Accuracy Estimate") + 
-  theme(text = element_text(size = 15))
+```{r k_accuracy_table, echo = FALSE, message = FALSE}
+k_accuracy_table <- read_csv(here("Outputs/5.1-k_accuracy_table.csv"))
+knitr::kable(k_accuracy_table, caption = "Accuracy of the different k values")
 ```
 
 **NOTE:** For whatever reason, the plot below does not load correctly in the github preview, but looks fine locally
 
-```{r}
-options(repr.plot.width = 5, repr.plot.height = 5)
-accuracy_vs_k
+```{r, echo = FALSE, message = FALSE, fig.cap = "Accuracies of the different k values"}
+# Preliminary data visualization
+knitr::include_graphics(here("Outputs/5.2-accuracy_vs_k_plot.png"))
 ```
-
-**Figure 2.2** - Accuracies of the different k values
 
 As seen in the plot above, the k value that gives the most accuracy before diminishing returns is 11, at an accuracy of \~47.3
 
 **NOTE:** The code below will also take a while to run
 
-```{r}
-# Calculate accuracy of the model using the best k and cross-validation
-
-knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 11) |>
-  set_engine("kknn") |>
-  set_mode("classification")
-
-knn_fit <- workflow() |>
-  add_recipe(song_recipe) |>
-  add_model(knn_spec) |>
-  fit_resamples(resamples = song_vfold)
-
-accuracy_value <- knn_fit |> 
-  collect_metrics() 
+```{r, echo = FALSE, message = FALSE}
+best_k_accuracy_table <- read_csv(here("Outputs/5.3-best_k_accuracy_table.csv"))
+knitr::kable(best_k_accuracy_table, caption = "Accuracy of the model on validation data")
 ```
 
-```{r}
-# Display accuracy of the model
-accuracy_value
-```
+Finally, after seeing our model perform on the validation data with an accuracy of approximately 0.473, we then fit our model with the optimized k value on the testing set to see how it performs on new data. Some of its predictions are shown in the table below:
 
-**Table 2.3** - Accuracy of the model on validation data
-
-Finally, after seeing our model perform on the validation data with an accuracy of approximately 0.473, we then fit our model with the optimized k value on the testing set to see how it performs on new data.
-
-```{r}
-#test predictions using test-data
-knn_fit <- workflow() |>
-  add_recipe(song_recipe) |>
-  add_model(knn_spec) |>
-  fit(training_song_data)
-
-song_test_predictions <- predict(knn_fit, testing_song_data) |>
-  bind_cols(testing_song_data)
-
-accuracy_only <- song_test_predictions |>
-  metrics(truth = playlist_genre, estimate = .pred_class) |>
-  filter(.metric == "accuracy")
-
-
-confusion <- song_test_predictions |>
-             conf_mat(truth = playlist_genre, estimate = .pred_class)
-```
-
-```{r}
-# Accuracy of the model on testing data
-accuracy_only
-```
-
-**Table 2.4** - Accuracy of model on testing data
-
-On the testing data, our model produces an accuracy of approximately 0.468, which is only slightly lower than what we saw on the validation data. Some of its predictions are shown in the table below:
-
-```{r}
+```{r, echo = FALSE, message = FALSE}
 # A table of predictions of the model
-song_test_predictions
+test_preds_table <- head(read_csv(here("Outputs/6.1-test_preds_table.csv")))
+knitr::kable(test_preds_table, caption = "Accuracy of model on testing data")
 ```
 
-**Table 2.5** - Predictions on the data
+On the testing data, our model produces an accuracy of approximately 0.468, which is only slightly lower than what we saw on the validation data.
 
-```{r}
-# Confusion
-confusion
+```{r, echo = FALSE, message = FALSE}
+# Accuracy of the model on testing data
+test_accuracy_table <- read_csv(here("Outputs/6.2-test_accuracy_table.csv"))
+knitr::kable(test_accuracy_table, caption = "Predictions on the data")
 ```
 
-**Table 2.6** - Confusion Matrix mapping out song's actual genres to their classifier predicted genres.
-
-```{r}
+```{r, echo = FALSE, message = FALSE, fig.cap= "Respective proportions of predictions in each genre for each of the genres"}
 # Data visualization 
-
-matrix_plot <- autoplot(confusion, type = "mosaic") + aes(fill = rep(colnames(confusion$table), ncol(confusion$table))) + labs(fill = "Predicted")
-matrix_plot
+knitr::include_graphics(here("Outputs/6.3-matrix_plot.png"))
 ```
-
-**Figure 2.7** - Respective proportions of predictions in each genre for each of the genres.
 
 We can see that for each genre, the classifier predicted the correct `playlist_genre` more commonly than any other particular category, but that this did not reach the majority of predictions in some cases. The visualization also shows which genre's were most or least likely to be mistaken for each other, e.g. rock and rap were not likely to have been predicted for each other.
 
@@ -358,10 +167,4 @@ These ideas could lead to a future project on how well Spotify's audio features 
 
 ## References
 
-Ndou, Ndiatenda, et al. "Music Genre Classification: A Review of Deep-Learning and Traditional Machine-Learning Approaches." 2021 IEEE International IOT, Electronics and Mechatronics Conference (IEMTRONICS), 2021, <https://doi.org/10.1109/iemtronics52119.2021.9422487>.
-
-Pelchat, Nikki, and Craig M. Gelowitz. "Neural Network Music Genre Classification." Canadian Journal of Electrical and Computer Engineering, vol. 43, no. 3, 11 Aug. 2020, pp. 170--173., <https://doi.org/10.1109/cjece.2020.2970144>.
-
-Singh, Yeshwant, and Anupam Biswas. "Robustness of Musical Features on Deep Learning Models for Music Genre Classification." Expert Systems with Applications, vol. 199, 2022, p. 116879., <https://doi.org/10.1016/j.eswa.2022.116879>.
-
-Snickars, Pelle. "More of the Same -- On Spotify Radio." Culture Unbound, vol. 9, no. 2, 2017, <https://doi.org/10.3384/cu.2000.1525.1792>.
+[@ndou2021music; @pelchat2020neural; @singh2022robustness; @snickars2017more]
