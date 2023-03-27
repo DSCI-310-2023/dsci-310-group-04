@@ -1,7 +1,11 @@
 # author: Annabelle Purnomo
 # date: 2023-03-10
 
-#' Creates a faceted plot of 6 histograms of each music genre from a csv file
+#' Make faceted plot
+#' 
+#' Creates a faceted plot for the "playlist_genre" target variable
+#' including any selected features
+#' combined using the face_grid() function
 #'
 #' @param df Tidy data containing a list of genres and acoustic features, as a dataframe
 #' @param feature Specified acoustic feature of which we want a visualisation, as a character type
