@@ -1,5 +1,7 @@
 #' author: Olivia Pang
 #' date: 2023-03-11
+
+#' Make tidied dataframe
 #' 
 #' Reads in a CSV file as a data frame, 
 #' converts one specified column to the type factor, 
@@ -15,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' classy_read(url, "playlist_genre", playlist_genre, danceability:tempo)
 
 classy_read <- function(path, col = NULL, ...){
   if (!is.character(path)) {
