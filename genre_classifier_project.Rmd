@@ -115,8 +115,7 @@ knitr::kable(k_accuracy_table, caption = "Accuracy of the different k values")
 
 **NOTE:** For whatever reason, the plot below does not load correctly in the github preview, but looks fine locally
 
-```{r, message = FALSE, fig.cap = "Accuracies of the different k values"}
-# Preliminary data visualization
+```{r, echo = FALSE, message = FALSE, fig.cap = "Accuracies of the different k values"}
 knitr::include_graphics(here("Outputs/5.2-accuracy_vs_k_plot.png"))
 ```
 
