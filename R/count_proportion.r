@@ -35,7 +35,7 @@ count_proportion <- function(data, to_prop, descriptor) {
     }
     tbr <- data |>
         dplyr::group_by(data[to_prop]) |>
-        dplyr::summarize(n = n()) |>
+        dplyr::summarize(n = dplyr::n()) |>
         dplyr::mutate(prop = 100* n/nrow(data))
     colnames(tbr) <- c(to_prop, paste(descriptor,"_n"), paste(descriptor,"_prop"))
     return(tbr)

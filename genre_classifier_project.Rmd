@@ -1,0 +1,166 @@
+---
+title: "DSCI 310 - Project: Classifying Music Genres Using Spotify Audio Features"
+output:
+  bookdown::html_document2:
+    df_print: paged
+    toc: true
+    number_sections: false
+bibliography: references.bib
+---
+
+## Summary
+
+In this project, we aim to answer the question of whether Spotify's audio features can be used to predict song genres. We use a KNN classification model that we evaluate using ROC/AUC, and produce visualizations and statistics to summarize our findings.
+
+## Introduction
+
+Music recommendation systems have experienced rapid growth in the past decade in terms both of the increasingly influential role they play in media consumption and the research that is invested in improving these algorithms. Despite the sophisticated techniques and ample data available today, reports of music genre classification show a wide variety of results, in part due to the plethora of possible features to classify a song on (Singh et al., 2022).
+
+Projects involving deep learning have shown a wide variety of results with often limited success (Pelchet et al., 2020), while traditional machine learning classification based on musical characteristics (such as tempo, pitch, and chord progression) seem to be relatively accurate (Ndou et al., 2021). However, these approaches to classification are distinctly different from that of Spotify, one of the most prevalent streaming services today that boasts an impressive recommendation algorithm. Rather than conforming to genre classification, the Spotify algorithm emphasizes personalized recommendations for each user, introducing a certain amount of bias that complicates the problem even further. Interestingly enough, Spotify has been so proficient in tailoring its algorithm for its users' listening habits that they are facing critiques for decreasing exposure and discoverability of diverse music genres (Snickars, 2017). Although they have released their database of songs for public use via Web API, and even made their custom audio features available (eg. speechiness, liveliness, etc.), there is still relatively little detail on how these features are used in their algorithm.
+
+Because Spotify's audio features for music personalization vary so much from what is commonly selected for classification rooted in music theory yet are so relevant in music personalization, we wonder how these features may perform for a slightly different but very related task of genre classification.
+
+**Our goal is to discover how well Spotify's custom audio features are able to predict common genres of music.**
+
+```{r, include = FALSE, message = FALSE}
+# Load necessary packages 
+library(tidyverse)
+library(repr)
+library(tidymodels)
+library(RCurl)
+library(kknn)
+library(cowplot)
+library(testthat)
+library(here)
+
+# Set default rows displayed for dataframes
+options(repr.matrix.max.rows = 6)
+
+# Set seed for reproducibility 
+set.seed(1)
+```
+
+### The Dataset
+
+We will be using the *Spotify Songs* dataset obtained here: <https://github.com/dliu0049/tidytuesday_wc/tree/master/data/2020/2020-01-21>.
+
+```{r, echo = FALSE, message = FALSE}
+song_data <- head(read_csv(here("Outputs/1.1-spotify_songs.csv")))
+knitr::kable(song_data, caption = "Original Spotify Songs dataset")
+```
+
+## Preliminary Data Analysis
+
+To tidy the data, from `song_data` we first selected only the predicted feature `playlist_genre` and the predictor features that relate to the acoustic aspects of the songs. Then, the datatype of `playlist_genre` was converted from character to factor and the resulting dataframe was named `tidy_song_data`.
+
+```{r, echo = FALSE, message = FALSE}
+tidy_song_data <- head(read_csv(here("Outputs/2.1-tidy_song_data.csv")))
+knitr::kable(tidy_song_data, caption = "Tidy dataset")
+```
+
+Next we seperated the `tidy_song_data` into a `training_song_data set` with which to build our classifier, and a `testing_song_data` set with which to evaluate it with later on. The ratio of the training/testing split is 75/25%, and the relative proportion of each `playlist_genre` category was preserved in each set.
+
+```{r, echo = FALSE, message = FALSE}
+training_song_data <- head(read_csv(here("Outputs/3.1-training_song_data.csv")))
+knitr::kable(training_song_data, caption = "Training data")
+```
+
+```{r, echo = FALSE, message = FALSE}
+testing_song_data <- head(read_csv(here("Outputs/3.2-testing_song_data.csv")))
+knitr::kable(testing_song_data, caption = "Testing data")
+```
+
+For preliminary data analysis, two things were checked, only using the `training_song_data`. First, the proportions of the `playlist_genre`, just to make sure the split divided it properly, and second, the amount of `NA` values in the dataset, which is important to ensure the set is suitable for analysis.
+
+```{r, echo = FALSE, message = FALSE}
+prop_df <- head(read_csv(here("Outputs/4.1-prop_df.csv")))
+knitr::kable(prop_df, caption = "Proportions of each genre in training set compared to tidy data")
+```
+
+The proportions are about the same in both datasets.
+
+```{r, echo = FALSE, message = FALSE}
+num_na <- read_csv(here("Outputs/4.2-num_na.csv"))
+knitr::kable(num_na, caption = "There is no missing data")
+```
+
+#### Preliminary Data Visualizations
+
+For the preliminary data visualization, histograms were created comparing the audio features between each of the `playlist_genre` categories.
+
+**NOTE:** This cell may take around 20 seconds to run
+
+```{r, echo = FALSE ,fig.cap=" Histograms of each of the features that we are using, differentiated by labeled genre."}
+knitr::include_graphics(here("Outputs/4.3-eda_grid.png"))
+```
+
+The histograms above show that while the distributions of certain audio features in songs are similar between different genres, across all the features there are differences in the central tendency and that these differences may provide enough information to acheive a reasonable accuracy with the classifier.
+
+## Methods and Analysis
+
+The following steps show how we build the classifier:
+
+First, we scale and center the predictors so that impact of each variable is equal. Then we create a recipe with the target variable `playlist_genre` that uses all the training data, and set up tuning for the best k value.
+
+Next, we conduct 5-fold cross validation in order to find the most suitable hyperparameter by getting better estimates of the accuracy of each k value.
+
+**NOTE:** The cell below will take around 5 minutes to load due to the size of the dataset
+
+The following table and plot summmarize these results:
+
+```{r, echo = FALSE, message = FALSE}
+k_accuracy_table <- read_csv(here("Outputs/5.1-k_accuracy_table.csv"))
+knitr::kable(k_accuracy_table, caption = "Accuracy of the different k values")
+```
+
+**NOTE:** For whatever reason, the plot below does not load correctly in the github preview, but looks fine locally
+
+```{r, echo = FALSE, message = FALSE, fig.cap = "Accuracies of the different k values"}
+knitr::include_graphics(here("Outputs/5.2-accuracy_vs_k_plot.png"))
+```
+
+As seen in the plot above, the k value that gives the most accuracy before diminishing returns is 11, at an accuracy of \~47.3
+
+**NOTE:** The code below will also take a while to run
+
+```{r, echo = FALSE, message = FALSE}
+best_k_accuracy_table <- read_csv(here("Outputs/5.3-best_k_accuracy_table.csv"))
+knitr::kable(best_k_accuracy_table, caption = "Accuracy of the model on validation data")
+```
+
+Finally, after seeing our model perform on the validation data with an accuracy of approximately 0.473, we then fit our model with the optimized k value on the testing set to see how it performs on new data. Some of its predictions are shown in the table below:
+
+```{r, echo = FALSE, message = FALSE}
+# A table of predictions of the model
+test_preds_table <- head(read_csv(here("Outputs/6.1-test_preds_table.csv")))
+knitr::kable(test_preds_table, caption = "Accuracy of model on testing data")
+```
+
+On the testing data, our model produces an accuracy of approximately 0.468, which is only slightly lower than what we saw on the validation data.
+
+```{r, echo = FALSE, message = FALSE}
+# Accuracy of the model on testing data
+test_accuracy_table <- read_csv(here("Outputs/6.2-test_accuracy_table.csv"))
+knitr::kable(test_accuracy_table, caption = "Predictions on the data")
+```
+
+```{r, echo = FALSE, message = FALSE, fig.cap= "Respective proportions of predictions in each genre for each of the genres"}
+# Data visualization 
+knitr::include_graphics(here("Outputs/6.3-matrix_plot.png"))
+```
+
+We can see that for each genre, the classifier predicted the correct `playlist_genre` more commonly than any other particular category, but that this did not reach the majority of predictions in some cases. The visualization also shows which genre's were most or least likely to be mistaken for each other, e.g. rock and rap were not likely to have been predicted for each other.
+
+## Discussion
+
+From fully conducting our analysis, we were able to create a KNN Classification model that produced an accuracy of approximately 46.8% when predicting the genre of songs based on Spotify audio features in our testing data.
+
+This was within the realm of our expectations as, given the existing literature on this topic, genre classification has been known to produce a wide variety of results based on the variables selected (Singh et al., 2022). Furthermore, it is unclear whether Spotify's audio predictors were generated for the purpose of typical genre classification, therefore we could only guess at how this model could perform. In fact, the aim of this project was to get a better idea of how these features were used, something that we can say we now have a better grasp of. Despite our lower overall accuracy (46.8%) on the testing data, it is worth noting that this result is only slightly lower than that of the validation accuracy at 47.3%. This could suggest that we were able to appropriately employ data preprocessing and cross-validation to have minimized data imbalance and overfitting/underfitting the training data, to create a robust model.
+
+The impact of our findings would serve to add to the research on song genre classification and the effects of using different features. It is interesting that our accuracy was relatively low, despite how Spotify's own algorithm is very well known while using these exact features. This could suggest that Spotify does not use these features for broad genre classification and instead for the sub-genres that are seen in the original dataset, or that they are more focussed on personalized music recommendations for users and not genre classification at all.
+
+These ideas could lead to a future project on how well Spotify's audio features work on classifying user listening habits (eg. Predicting whether or not a song is in someone's "Liked Songs"). Of course, we chose to use the rather simple model of KNN Classification, so this research would be able to help us discern whether the Spotify features are indeed used mainly for recommending music, or if our model was too naive. On a broader scope, our findings may hopefully encourage research on whether genre classification using the more human-define features (eg. liveliness, valence) that Spotify uses, as opposed to more objective musical features, is worth further exploration.
+
+## References
+
+[@ndou2021music; @pelchat2020neural; @singh2022robustness; @snickars2017more]

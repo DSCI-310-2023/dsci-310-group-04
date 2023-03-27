@@ -1,0 +1,7 @@
+neighbors,.metric,.estimator,mean,n,std_err,.config
+1,accuracy,multiclass,0.4209050436755393,5,0.0033073228929652535,Preprocessor1_Model1
+11,accuracy,multiclass,0.47305144648696784,5,0.003223285958819085,Preprocessor1_Model2
+21,accuracy,multiclass,0.47938564784909804,5,0.0054377038755441635,Preprocessor1_Model3
+31,accuracy,multiclass,0.48438240351681017,5,0.005472263432716452,Preprocessor1_Model4
+41,accuracy,multiclass,0.4849505770242484,5,0.005409901129928786,Preprocessor1_Model5
+51,accuracy,multiclass,0.4847882310577334,5,0.005032699580233834,Preprocessor1_Model6

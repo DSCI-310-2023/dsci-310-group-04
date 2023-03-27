@@ -1,11 +1,19 @@
 # author: Annabelle Purnomo
 # date: 2023-03-10
-#' Creates a faceted plot of 6 histograms of each music genre from a csv file
+
+#' Make faceted plot
+#' 
+#' Creates a faceted plot for the "playlist_genre" target variable
+#' including any selected features
+#' combined using the face_grid() function
 #'
 #' @param df Tidy data containing a list of genres and acoustic features, as a dataframe
 #' @param feature Specified acoustic feature of which we want a visualisation, as a character type
 #'
 #' @return faceted plot of 6 histograms
+#' 
+#' @exmaples
+#' create_faceted_hist_plot(training_song_data, 'danceability')
 
 library(tidyverse)
 
@@ -13,11 +21,15 @@ create_faceted_hist_plot <- function(df,feature) {
   if (!is.character(feature)) {
     stop("`feature` should be a string")
   }
-  if (!is.data.frame(feature)) {
+  if (!is.data.frame(df)) {
     stop("`df` should be a data frame")
   }
+  if (nrow(df) == 0) {
+    stop("`df` should be a data frame")
+  }
+  xvar <- sym(feature)
   
-  ggplot(df, aes(x = {{feature}})) + 
-    geom_histogram(bins = 20, stat="count") + 
+  ggplot(df, aes(x = !!xvar)) + 
+    geom_bar(stat = "bin", bins = 20)  + 
     facet_grid(rows = "playlist_genre")
 }
