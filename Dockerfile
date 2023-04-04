@@ -12,3 +12,4 @@ RUN Rscript -e "remotes::install_version('repr', version = '1.1.6', repos= 'http
 RUN Rscript -e "remotes::install_version('here', version = '1.0.1', repos= 'https://cloud.r-project.org')"
 RUN Rscript -e "remotes::install_version('bookdown', version = '0.33', repos= 'https://cloud.r-project.org')"
 RUN Rscript -e "remotes::install_version('docopt', version = '0.7.1', repos= 'https://cloud.r-project.org')"
+RUN Rscript -e "remotes::install_version('markdown', version = '1.1', repos= 'https://cloud.r-project.org')"

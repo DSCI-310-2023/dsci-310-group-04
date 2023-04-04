@@ -70,6 +70,8 @@ valence_hist <- create_faceted_hist_plot(training_song_data, 'valence')
 
 tempo_hist <- create_faceted_hist_plot(training_song_data, 'tempo')
 
-eda_grid <- plot_grid(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist, ncol = 4, labels = "AUTO")
+plot_list <- list(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist)
 
-ggsave("4.3-eda_grid.png", device = "png", path = "Outputs", width = 5, height = 4)
+eda_grid <- plot_grid(plotlist = plot_list, ncol = 4, labels = "AUTO")
+
+ggsave("4.3-eda_grid.png", device = "png", path = "Outputs", width = 10, height = 10)
