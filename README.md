@@ -22,13 +22,16 @@ To run the analyses you will need to clone this repository.
 ## Usage
 1. Install Docker. Make sure to follow the [installation steps](https://docs.docker.com/engine/install/).
 2. Again, remember to make sure you're in the root directory of this repository on your local computer. If you type `pwd` you should see that you're inside `dsci-310-group-04`. 
-3. Run the following command from the command line/terminal: 
+3. Run the following command from your computer's command line/terminal: 
 
     `docker run -p 8787:8787 --rm --platform linux/amd64 -e PASSWORD="apassword" -v /$(pwd):/home/rstudio/workspace ethanielp/dsci310-project:latest`
   
 4. To work on files in this container, go to http://localhost:8787/ and type in the following
   - username: rstudio
   - password: apassword
+  
+5. Reproduce analysis with make. In the **Rstudio terminal**, type in the make command: 
+  - `make all`
 
 ## Dependencies  
 R version=4.2.2 and R packages: 
