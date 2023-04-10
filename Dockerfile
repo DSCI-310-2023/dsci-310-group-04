@@ -14,4 +14,4 @@ RUN Rscript -e "remotes::install_version('bookdown', version = '0.33', repos= 'h
 RUN Rscript -e "remotes::install_version('docopt', version = '0.7.1', repos= 'https://cloud.r-project.org')"
 RUN Rscript -e "remotes::install_version('markdown', version = '1.1', repos= 'https://cloud.r-project.org')"
 
-RUN installGithub.r DSCI-310/dsci-310-group-04-pkg
+RUN installGithub.r DSCI-310/dsci-310-group-04-pkg@0.0.0.1
