@@ -8,6 +8,7 @@ library(here)
 library(tidyverse)
 library(RCurl)
 
+
 # main
 url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv"
 x <- getURL(url)
