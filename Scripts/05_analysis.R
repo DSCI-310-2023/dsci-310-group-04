@@ -5,7 +5,6 @@ library(here)
 library(kknn)
 library(tidyverse)
 library(tidymodels)
-# load sources
 
 # Read in the data
 training_song_data <- read.csv(here("Outputs", "3.1-training_song_data.csv"))
@@ -13,7 +12,6 @@ testing_song_data <- read.csv(here("Outputs", "3.2-testing_song_data.csv"))
 
 training_song_data$playlist_genre <- as.factor(training_song_data$playlist_genre)
 testing_song_data$playlist_genre <- as.factor(testing_song_data$playlist_genre)
-
 
 # Scale predictors, use standard recipe, setup knn_spec to tune for best k value
 song_recipe <- recipe(playlist_genre ~ ., data = training_song_data) |>

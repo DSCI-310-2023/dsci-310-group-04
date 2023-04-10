@@ -10,8 +10,9 @@
 library(here)
 library(tidyverse)
 
-# sources
-source(here("R","classy_read.R"))
+# load sources
+library(genreclassifier)
+# source(here("R","classy_read.R"))
 
 # main
 url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv"
