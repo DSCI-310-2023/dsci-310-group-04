@@ -48,30 +48,12 @@ write_csv(num_na,
 # Histograms of each of the features that we are using, differentiated by labeled genre
 options(repr.plot.width = 15, repr.plot.height = 15)
 
-danceability_hist <- create_faceted_hist_plot(training_song_data, 'danceability')
+feature_list <- list('danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo')
+to_plot <- list()
 
-energy_hist <- create_faceted_hist_plot(training_song_data, 'energy')
+for(i in feature_list){
+  to_plot[[i]] = create_faceted_hist_plot(training_song_data, i)
+}
 
-key_hist <- create_faceted_hist_plot(training_song_data, 'key')
-
-loudness_hist <- create_faceted_hist_plot(training_song_data, 'loudness')
-
-mode_hist <- create_faceted_hist_plot(training_song_data, 'mode')
-
-speechiness_hist <- create_faceted_hist_plot(training_song_data, 'speechiness')
-
-acousticness_hist <- create_faceted_hist_plot(training_song_data, 'acousticness')
-
-instrumentalness_hist <- create_faceted_hist_plot(training_song_data, 'instrumentalness')
-
-liveness_hist <- create_faceted_hist_plot(training_song_data, 'liveness')
-
-valence_hist <- create_faceted_hist_plot(training_song_data, 'valence')
-
-tempo_hist <- create_faceted_hist_plot(training_song_data, 'tempo')
-
-plot_list <- list(danceability_hist, energy_hist, danceability_hist, key_hist, loudness_hist, mode_hist, speechiness_hist, acousticness_hist, instrumentalness_hist, liveness_hist, valence_hist ,tempo_hist)
-
-eda_grid <- plot_grid(plotlist = plot_list, ncol = 4, labels = "AUTO")
-
+eda_grid <- plot_grid(plotlist = to_plot, ncol = 4, labels = "AUTO")
 ggsave("4.3-eda_grid.png", device = "png", path = "Outputs", width = 10, height = 10)
