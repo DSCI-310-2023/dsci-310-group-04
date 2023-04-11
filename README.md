@@ -41,6 +41,8 @@ make rstudio
   
 5. Reproduce analysis with make. In the **Rstudio terminal**, type in the make command: 
   - `make all`
+  
+NOTE: The script, particularly 05_analysis.R will take a while to run (~15min)
 
 ## Dependencies  
 R version=4.2.2 and R packages: 
