@@ -12,10 +12,7 @@ library(here)
 library(cowplot)
 
 # load sources
-library(genreclassifier )
-# opt <- docopt(doc)
-# source(here("R","count_proportion.r"))
-# source(here("R","create_faceted_hist_plot.R"))
+library(genreclassifier)
 
 # 0 Read in the data
 tidy_song_data <- read.csv(here("Outputs", "2.1-tidy_song_data.csv"))

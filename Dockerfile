@@ -14,4 +14,5 @@ RUN Rscript -e "remotes::install_version('bookdown', version = '0.33', repos= 'h
 RUN Rscript -e "remotes::install_version('docopt', version = '0.7.1', repos= 'https://cloud.r-project.org')"
 RUN Rscript -e "remotes::install_version('markdown', version = '1.1', repos= 'https://cloud.r-project.org')"
 
-RUN Rscript -e "install.packages('genreclassifier')"
+# adding our package
+RUN Rscript -e "devtools::install_github('DSCI-310/dsci-310-group-04-pkg@v1.0.0')"
