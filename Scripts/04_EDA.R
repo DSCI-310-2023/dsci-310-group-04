@@ -48,9 +48,10 @@ options(repr.plot.width = 15, repr.plot.height = 15)
 
 feature_list <- list('danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo')
 to_plot <- list()
-
-for(i in feature_list){
-  to_plot[[i]] = create_faceted_hist_plot(training_song_data, i)
+i <- 1
+while(i <= length(feature_list)){
+  to_plot[[i]] = create_faceted_hist_plot(training_song_data, toString(feature_list[i]), 'playlist_genre')
+  i <- i + 1
 }
 
 eda_grid <- plot_grid(plotlist = to_plot, ncol = 4, labels = "AUTO")
